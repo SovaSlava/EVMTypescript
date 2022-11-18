@@ -22,8 +22,7 @@ export default function evm(code: Uint8Array) {
     if (opcode >= 0x60 && opcode <= 0x7F) {
       argSize = opcode - 0x60 + 1;
       const argSliceArr = code.slice(pc + 1, pc + 1 + argSize);
-      const argArr = argSliceArr.filter(function (el) { if (el != 0) return el; })
-      let hiBuf = Buffer.from(argArr);
+      let hiBuf = Buffer.from(argSliceArr);
 
       stack.push(BigInt('0x' + hiBuf.toString('hex')));
 
