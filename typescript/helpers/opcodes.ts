@@ -1,3 +1,5 @@
 export * from "./PUSH"
 export * from "./POP"
 export * from "./STOP"
+export * from "./ADD"
+export * from "./MUL"

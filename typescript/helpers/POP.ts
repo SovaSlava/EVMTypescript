@@ -1,4 +1,4 @@
-export function POP(stack: bigint[]) {
+export function POP(stack: bigint[]): bigint[] {
     stack.shift();
     return stack;
 }
