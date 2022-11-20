@@ -61,6 +61,7 @@ export default function evm(code: Uint8Array) {
       case 0x04: stack = helpers.DIV(stack); break;
       case 0x06: stack = helpers.MOD(stack); break;
       case 0x08: stack = helpers.ADDMOD(stack); break;
+      case 0x09: stack = helpers.MULMOD(stack); break;
     }
 
 
@@ -73,7 +74,7 @@ export default function evm(code: Uint8Array) {
     else {
       pc += argSize + 1;
     }
-    console.log('now stack - ' + stack.toString())
+    // console.log('now stack - ' + stack.toString())
   }
 
   return { success: true, stack };
