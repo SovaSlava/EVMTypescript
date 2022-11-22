@@ -63,6 +63,7 @@ export default function evm(code: Uint8Array) {
       case 0x08: stack = helpers.ADDMOD(stack); break;
       case 0x09: stack = helpers.MULMOD(stack); break;
       case 0x0a: stack = helpers.EXP(stack); break;
+      case 0x0b: stack = helpers.SIGNEXTEND(stack); break;
     }
 
 
