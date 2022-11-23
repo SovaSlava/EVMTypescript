@@ -7,7 +7,7 @@ export function SIGNEXTEND(stack: bigint[]): bigint[] {
     let res;
     if (sign == 1) {
         let res1 = (BigInt(m) << BigInt(8) | stack[1]).toString(16);
-        res = res1.slice(res1.length - 32, res1.length)
+        //res = res1.slice(res1.length - 32, res1.length)
     }
     else {
         res = BigInt(o) | stack[1];
