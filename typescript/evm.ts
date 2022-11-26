@@ -68,6 +68,7 @@ export default function evm(code: Uint8Array) {
       case 0x07: stack = opcodes.SMOD(stack); break;
       case 0x07: stack = opcodes.SMOD(stack); break;
       case 0x10: stack = opcodes.LT(stack); break;
+      case 0x11: stack = opcodes.GT(stack); break;
     }
 
 
