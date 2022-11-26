@@ -10,9 +10,7 @@ export function SDIV(stack: bigint[]): bigint[] {
         const value0: bigint = BigInt.asIntN(size0, BigInt(stack[0]));
         const value1: bigint = BigInt.asIntN(size1, BigInt(stack[1]));
         sdiv = value0 / value1;
-        if (sdiv < 0) {
-            sdiv = BigInt(0);
-        }
+        sdiv = size0 > size1 ? BigInt.asUintN(size0, sdiv) : BigInt.asUintN(size1, sdiv)
     }
     stack.shift();
     stack.shift();
