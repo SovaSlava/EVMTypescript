@@ -1,6 +1,7 @@
 export function SIGNEXTEND(stack: bigint[]): bigint[] {
     let res: bigint;
-    if (BigInt.asIntN(8, BigInt(stack[1])).toString()[0] == '-') {
+    let size: number = Math.ceil(stack[1].toString(2).length / 8) * 8;
+    if (BigInt.asIntN(size, BigInt(stack[1])).toString()[0] == '-') {
         // negative
         let value: string = stack[1].toString(16);
         while (value.length != 64) {
