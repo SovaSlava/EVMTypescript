@@ -11,7 +11,7 @@
  * - Run `yarn test` (or `npm test`) to run the tests
  * - Use Jest Watch Mode to run tests when files change: `yarn test --watchAll`
  */
-import * as helpers from "./helpers/opcodes"
+import * as opcodes from "./opcodes/index"
 export default function evm(code: Uint8Array) {
   let pc = 0;
   let stack: bigint[] = [];
@@ -21,7 +21,7 @@ export default function evm(code: Uint8Array) {
     // PUSHXX
 
     switch (opcode) {
-      case 0x00: pc = helpers.STOP(pc, code); break;
+      case 0x00: pc = opcodes.STOP(pc, code); break;
       case 0x60:
       case 0x61:
       case 0x62:
@@ -53,19 +53,20 @@ export default function evm(code: Uint8Array) {
       case 0x7C:
       case 0x7D:
       case 0x7E:
-      case 0x7F: [argSize, stack] = helpers.PUSH(opcode, pc, code, stack); break;
-      case 0x50: stack = helpers.POP(stack); break;
-      case 0x01: stack = helpers.ADD(stack); break;
-      case 0x02: stack = helpers.MUL(stack); break;
-      case 0x03: stack = helpers.SUB(stack); break;
-      case 0x04: stack = helpers.DIV(stack); break;
-      case 0x06: stack = helpers.MOD(stack); break;
-      case 0x08: stack = helpers.ADDMOD(stack); break;
-      case 0x09: stack = helpers.MULMOD(stack); break;
-      case 0x0a: stack = helpers.EXP(stack); break;
-      case 0x0b: stack = helpers.SIGNEXTEND(stack); break;
-      case 0x05: stack = helpers.SDIV(stack); break;
-      case 0x07: stack = helpers.SMOD(stack); break;
+      case 0x7F: [argSize, stack] = opcodes.PUSH(opcode, pc, code, stack); break;
+      case 0x50: stack = opcodes.POP(stack); break;
+      case 0x01: stack = opcodes.ADD(stack); break;
+      case 0x02: stack = opcodes.MUL(stack); break;
+      case 0x03: stack = opcodes.SUB(stack); break;
+      case 0x04: stack = opcodes.DIV(stack); break;
+      case 0x06: stack = opcodes.MOD(stack); break;
+      case 0x08: stack = opcodes.ADDMOD(stack); break;
+      case 0x09: stack = opcodes.MULMOD(stack); break;
+      case 0x0a: stack = opcodes.EXP(stack); break;
+      case 0x0b: stack = opcodes.SIGNEXTEND(stack); break;
+      case 0x05: stack = opcodes.SDIV(stack); break;
+      case 0x07: stack = opcodes.SMOD(stack); break;
+      case 0x07: stack = opcodes.SMOD(stack); break;
     }
 
 

@@ -10,7 +10,7 @@ export function SMOD(stack: bigint[]): bigint[] {
         const value0: bigint = BigInt.asIntN(size0, BigInt(stack[0]));
         const value1: bigint = BigInt.asIntN(size1, BigInt(stack[1]));
         smod = value0 % value1;
-        smod = size0 > size1 ? BigInt.asUintN(size0, sdiv) : BigInt.asUintN(size1, sdiv)
+        smod = size0 > size1 ? BigInt.asUintN(size0, smod) : BigInt.asUintN(size1, smod)
     }
     stack.shift();
     stack.shift();
