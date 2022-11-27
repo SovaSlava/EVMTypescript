@@ -74,6 +74,7 @@ export default function evm(code: Uint8Array) {
       case 0x14: stack = opcodes.EQ(stack); break;
       case 0x15: stack = opcodes.ISZERO(stack); break;
       case 0x16: stack = opcodes.AND(stack); break;
+      case 0x17: stack = opcodes.OR(stack); break;
       case 0x19: stack = opcodes.NOT(stack); break;
     }
 
