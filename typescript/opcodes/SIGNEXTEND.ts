@@ -5,7 +5,7 @@ export function SIGNEXTEND(stack: bigint[]): bigint[] {
         // negative
         let value: string = stack[1].toString(16);
         while (value.length != 64) {
-            value += 'ff';
+            value += 'f';
         }
         res = BigInt(`0x${value}`);
     }

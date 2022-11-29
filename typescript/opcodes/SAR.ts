@@ -7,21 +7,15 @@ export function SAR(stack: bigint[]): bigint[] {
             sar = max - BigInt(1);
         }
         else {
-            console.log('negative')
             // negative
             let value: string = ((stack[1] >> stack[0]) % max).toString(16);
-            console.log('len - ' + value.length)
-            console.log('value - ' + value.toString(16))
             while (value.length != 64) {
                 value = 'f' + value;
             }
-            console.log('len again - ' + value.length)
-            console.log('value again - ' + value.toString(16))
             sar = BigInt(`0x${value}`);
         }
     }
     else {
-        console.log('positive')
         if (stack[0] > 0xff) {
             sar = BigInt(0);
         }
@@ -30,15 +24,6 @@ export function SAR(stack: bigint[]): bigint[] {
         }
     }
 
-    /*
-    if (stack[0] > 0xff) {
-        sar = BigInt(0);
-    }
-    */
-    //else {
-
-
-    console.log('result sar - ' + sar.toString(16))
     stack.shift();
     stack.shift();
     stack.push(sar);
