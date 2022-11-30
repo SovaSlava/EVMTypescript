@@ -1,10 +1,10 @@
 export function SAR(stack: bigint[]): bigint[] {
-    let max = BigInt(0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    let max = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffn
     let sar: bigint;
     const size: number = Math.ceil(stack[1].toString(2).length / 8) * 8;
     if (BigInt.asIntN(size, BigInt(stack[1])).toString()[0] == '-') {
         if (stack[0] > 0xff) {
-            sar = max - BigInt(1);
+            sar = max;
         }
         else {
             // negative
