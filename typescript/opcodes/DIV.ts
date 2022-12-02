@@ -11,6 +11,6 @@ export function DIV(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(div);
+    stack.unshift(div);
     return stack;
 }

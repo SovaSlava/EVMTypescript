@@ -14,6 +14,6 @@ export function BYTE(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(byte);
+    stack.unshift(byte);
     return stack;
 }

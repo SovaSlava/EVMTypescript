@@ -14,6 +14,6 @@ export function ADDMOD(stack: bigint[]): bigint[] {
     stack.shift();
     stack.shift();
     stack.shift();
-    stack.push(addmod);
+    stack.unshift(addmod);
     return stack;
 }

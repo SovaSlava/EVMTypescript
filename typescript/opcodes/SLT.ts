@@ -12,6 +12,6 @@ export function SLT(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(slt);
+    stack.unshift(slt);
     return stack;
 }

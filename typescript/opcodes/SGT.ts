@@ -12,6 +12,6 @@ export function SGT(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(sgt);
+    stack.unshift(sgt);
     return stack;
 }

@@ -26,6 +26,6 @@ export function SAR(stack: bigint[]): bigint[] {
 
     stack.shift();
     stack.shift();
-    stack.push(sar);
+    stack.unshift(sar);
     return stack;
 }

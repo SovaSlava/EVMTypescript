@@ -9,6 +9,6 @@ export function SHL(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(shl);
+    stack.unshift(shl);
     return stack;
 }

@@ -8,6 +8,6 @@ export function GT(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(gt);
+    stack.unshift(gt);
     return stack;
 }

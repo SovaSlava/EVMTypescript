@@ -8,6 +8,6 @@ export function MOD(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(mod);
+    stack.unshift(mod);
     return stack;
 }

@@ -14,6 +14,6 @@ export function SMOD(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(smod);
+    stack.unshift(smod);
     return stack;
 }

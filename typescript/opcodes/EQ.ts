@@ -8,6 +8,6 @@ export function EQ(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(eq);
+    stack.unshift(eq);
     return stack;
 }

@@ -5,6 +5,6 @@ export function ADD(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(sum);
+    stack.unshift(sum);
     return stack;
 }

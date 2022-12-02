@@ -8,6 +8,6 @@ export function LT(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(lt);
+    stack.unshift(lt);
     return stack;
 }

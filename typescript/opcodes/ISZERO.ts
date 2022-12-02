@@ -7,6 +7,6 @@ export function ISZERO(stack: bigint[]): bigint[] {
         iszero = BigInt(0);
     }
     stack.shift();
-    stack.push(iszero);
+    stack.unshift(iszero);
     return stack;
 }

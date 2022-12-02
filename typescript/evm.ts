@@ -97,6 +97,24 @@ export default function evm(code: Uint8Array) {
       case 0x8D:
       case 0x8E:
       case 0x8F: stack = opcodes.DUP(opcode, stack); break;
+      case 0x90:
+      case 0x91:
+      case 0x92:
+      case 0x93:
+      case 0x94:
+      case 0x95:
+      case 0x96:
+      case 0x97:
+      case 0x98:
+      case 0x99:
+      case 0x90:
+      case 0x9A:
+      case 0x9B:
+      case 0x9C:
+      case 0x9D:
+      case 0x9E:
+      case 0x9F: stack = opcodes.SWAP(opcode, stack); break;
+
 
     }
 

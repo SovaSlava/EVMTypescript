@@ -9,6 +9,6 @@ export function MULMOD(stack: bigint[]): bigint[] {
     stack.shift();
     stack.shift();
     stack.shift();
-    stack.push(mul);
+    stack.unshift(mul);
     return stack;
 }

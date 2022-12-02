@@ -14,6 +14,6 @@ export function SDIV(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(sdiv);
+    stack.unshift(sdiv);
     return stack;
 }

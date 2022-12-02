@@ -5,6 +5,6 @@ export function SUB(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(sub);
+    stack.unshift(sub);
     return stack;
 }

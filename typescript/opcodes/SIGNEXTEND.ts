@@ -14,6 +14,6 @@ export function SIGNEXTEND(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(res);
+    stack.unshift(res);
     return stack;
 }

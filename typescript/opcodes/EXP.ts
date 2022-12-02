@@ -11,6 +11,6 @@ export function EXP(stack: bigint[]): bigint[] {
     }
     stack.shift();
     stack.shift();
-    stack.push(exp);
+    stack.unshift(exp);
     return stack;
 }
