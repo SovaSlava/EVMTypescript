@@ -117,7 +117,7 @@ export default function evm(code: Uint8Array) {
       case 0x9F: stack = opcodes.SWAP(opcode, stack); break;
       case 0xFE: success = opcodes.INVALID(); break;
       case 0x58: stack = opcodes.PC(pc, stack); break;
-
+      case 0x5A: stack = opcodes.GAS(stack); break;
     }
 
 
