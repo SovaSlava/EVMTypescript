@@ -15,6 +15,7 @@ import * as opcodes from "./opcodes/index"
 export default function evm(code: Uint8Array) {
   let pc = 0;
   let stack: bigint[] = [];
+  let success: boolean = true;
   while (pc < code.length) {
     const opcode = code[pc];
     let argSize: number = 0;
@@ -114,7 +115,7 @@ export default function evm(code: Uint8Array) {
       case 0x9D:
       case 0x9E:
       case 0x9F: stack = opcodes.SWAP(opcode, stack); break;
-
+      case 0xFE: success = opcodes.INVALID(); break;
 
     }
 
@@ -130,6 +131,5 @@ export default function evm(code: Uint8Array) {
     }
     // console.log('now stack - ' + stack.toString())
   }
-
-  return { success: true, stack };
+  return { success: success, stack };
 }
