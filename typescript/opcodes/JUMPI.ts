@@ -1,4 +1,4 @@
-export function JUMP(pc: number, stack: bigint[], code: Uint8Array): [number, bigint[], boolean] {
+export function JUMPI(pc: number, stack: bigint[], code: Uint8Array): [number, bigint[], boolean] {
     let success: boolean = true;
     if (code[Number(stack[0])].toString(16) == '5b' && Number(stack[0]) < code.length) {
         for (let i = Number(stack[0]) - 1; i >= 0; i--) {
@@ -11,7 +11,10 @@ export function JUMP(pc: number, stack: bigint[], code: Uint8Array): [number, bi
             }
         }
         if (success) {
-            pc = Number(stack[0]);
+            if (stack[1] > 0) {
+                pc = Number(stack[0]);
+            }
+            stack.shift();
             stack.shift();
         }
     }

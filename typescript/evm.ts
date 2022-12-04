@@ -119,6 +119,7 @@ export default function evm(code: Uint8Array) {
       case 0x58: stack = opcodes.PC(pc, stack); break;
       case 0x5A: stack = opcodes.GAS(stack); break;
       case 0x56: [pc, stack, success] = opcodes.JUMP(pc, stack, code); break;
+      case 0x57: [pc, stack, success] = opcodes.JUMPI(pc, stack, code); break;
       case 0x5B: opcodes.JUMPDEST(); break;
     }
 
