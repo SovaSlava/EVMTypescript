@@ -7,8 +7,13 @@ export default class Memory {
     }
 
     store(offset: bigint, value: bigint, size: 1n | 32n) {
-        for (let i = 0n; i < 32n; i++) {
-            this.data[Number(offset + i)] = Number((value >> ((32n - i - 1n) * 8n)) & 0xffn);
+        if (size == 32n) {
+            for (let i = 0n; i < size; i++) {
+                this.data[Number(offset + i)] = Number((value >> ((32n - i - 1n) * 8n)) & 0xffn);
+            }
+        }
+        else {
+            this.data[Number(offset)] = Number(value);
         }
     }
 
