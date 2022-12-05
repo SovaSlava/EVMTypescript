@@ -126,6 +126,7 @@ export default function evm(code: Uint8Array) {
       case 0x51: stack = opcodes.MLOAD(memory, stack); break;
       case 0x52: stack = opcodes.MSTORE(memory, stack); break;
       case 0x53: stack = opcodes.MSTORE8(memory, stack); break;
+      case 0x59: stack = opcodes.MSIZE(memory, stack); break;
     }
 
 
