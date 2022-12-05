@@ -12,14 +12,16 @@
  * - Use Jest Watch Mode to run tests when files change: `yarn test --watchAll`
  */
 import * as opcodes from "./opcodes/index"
+import Memory from './memory'
+
 export default function evm(code: Uint8Array) {
   let pc: number = 0;
   let stack: bigint[] = [];
+  // let memory: Memory = new Memory();
   let success: boolean = true;
   while (pc < code.length) {
     const opcode = code[pc];
     let argSize: number = 0;
-    // PUSHXX
 
     switch (opcode) {
       case 0x00: pc = opcodes.STOP(pc, code); break;
@@ -121,6 +123,7 @@ export default function evm(code: Uint8Array) {
       case 0x56: [pc, stack, success] = opcodes.JUMP(pc, stack, code); break;
       case 0x57: [pc, stack, success] = opcodes.JUMPI(pc, stack, code); break;
       case 0x5B: opcodes.JUMPDEST(); break;
+      // case 0x51: stack = opcodes.MLOAD(memory, stack); break;
     }
 
 

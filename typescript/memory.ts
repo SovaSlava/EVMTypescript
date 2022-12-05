@@ -1,4 +1,4 @@
-export class Memory {
+export default class Memory {
 
     private data: Uint8Array;
 
@@ -6,7 +6,7 @@ export class Memory {
         this.data = new Uint8Array(1024 * 1024);
     }
 
-    store(offset: bigint, value) {
+    store(offset: bigint, value: bigint) {
         for (let i = 0n; i < 32n; i++) {
             this.data[Number(offset + i)] = Number((value >> ((32n - i - 1n) * 8n)) & 0xffn);
         }
