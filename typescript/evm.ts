@@ -17,7 +17,7 @@ import Memory from './memory'
 export default function evm(code: Uint8Array) {
   let pc: number = 0;
   let stack: bigint[] = [];
-  // let memory: Memory = new Memory();
+  let memory: Memory = new Memory();
   let success: boolean = true;
   while (pc < code.length) {
     const opcode = code[pc];
@@ -123,7 +123,8 @@ export default function evm(code: Uint8Array) {
       case 0x56: [pc, stack, success] = opcodes.JUMP(pc, stack, code); break;
       case 0x57: [pc, stack, success] = opcodes.JUMPI(pc, stack, code); break;
       case 0x5B: opcodes.JUMPDEST(); break;
-      // case 0x51: stack = opcodes.MLOAD(memory, stack); break;
+      case 0x51: stack = opcodes.MLOAD(memory, stack); break;
+      case 0x52: stack = opcodes.MSTORE(memory, stack); break;
     }
 
 
