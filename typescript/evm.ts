@@ -130,6 +130,7 @@ export default function evm(code: Uint8Array, tx: txType) {
       case 0x20: stack = opcodes.SHA3(memory, stack); break;
       case 0x30: stack = opcodes.ADDRESS(tx, stack); break;
       case 0x33: stack = opcodes.CALLER(tx, stack); break;
+      case 0x32: stack = opcodes.ORIGIN(tx, stack); break;
     }
 
 

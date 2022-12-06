@@ -1,4 +1,5 @@
 export type txType = {
     to: bigint,
-    from: bigint
+    from: bigint,
+    origin: bigint
 }
