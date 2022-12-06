@@ -13,8 +13,8 @@
  */
 import * as opcodes from "./opcodes/index"
 import Memory from './memory'
-
-export default function evm(code: Uint8Array) {
+import type { txType } from "./transaction"
+export default function evm(code: Uint8Array, tx: txType) {
   let pc: number = 0;
   let stack: bigint[] = [];
   let memory: Memory = new Memory();
@@ -128,6 +128,7 @@ export default function evm(code: Uint8Array) {
       case 0x53: stack = opcodes.MSTORE8(memory, stack); break;
       case 0x59: stack = opcodes.MSIZE(memory, stack); break;
       case 0x20: stack = opcodes.SHA3(memory, stack); break;
+      case 0x30: stack = opcodes.ADDRESS(tx, stack); break;
     }
 
 
