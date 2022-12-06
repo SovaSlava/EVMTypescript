@@ -26,14 +26,14 @@ export default class Memory {
         }
     }
 
-    load(offset: bigint) {
-        let memoryOffset = offset + 32n;
-        let memoryAffected = memoryOffset % 32n == 0n ? 32n : memoryOffset - (memoryOffset % 32n) + 32n
+    load(offset: bigint, size: bigint = 32n) {
+        let memoryOffset = offset + size;
+        let memoryAffected = memoryOffset % size == 0n ? size : memoryOffset - (memoryOffset % size) + size
         if (this.size < memoryAffected) {
             this.size = memoryAffected;
         }
         let value = 0n;
-        for (let i = 0n; i < 32n; i++) {
+        for (let i = 0n; i < size; i++) {
             value = (value << 8n) | BigInt(this.data[Number(offset + i)]);
         }
         return value;

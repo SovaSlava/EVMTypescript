@@ -15,7 +15,7 @@ for (const t of tests as any) {
   });
 }
 
-function hexStringToUint8Array(hexString: string) {
+export function hexStringToUint8Array(hexString: string) {
   return new Uint8Array(
     (hexString?.match(/../g) || []).map((byte) => parseInt(byte, 16))
   );
