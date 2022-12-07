@@ -3,5 +3,6 @@ export type blockType = {
     coinbase: bigint,
     timestamp: bigint,
     number: bigint,
-    difficulty: bigint
+    difficulty: bigint,
+    gaslimit: bigint
 }
