@@ -1,3 +1,4 @@
 export type blockType = {
-    basefee: bigint
+    basefee: bigint,
+    coinbase: bigint
 }
