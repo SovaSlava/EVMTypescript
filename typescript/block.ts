@@ -1,4 +1,5 @@
 export type blockType = {
     basefee: bigint,
-    coinbase: bigint
+    coinbase: bigint,
+    timestamp: bigint
 }

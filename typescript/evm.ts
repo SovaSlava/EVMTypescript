@@ -135,6 +135,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType) {
       case 0x3a: stack = opcodes.GASPRICE(tx, stack); break;
       case 0x48: stack = opcodes.BASEFEE(block, stack); break;
       case 0x41: stack = opcodes.COINBASE(block, stack); break;
+      case 0x42: stack = opcodes.TIMESTAMP(block, stack); break;
     }
 
 
