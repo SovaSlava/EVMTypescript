@@ -14,7 +14,8 @@
 import * as opcodes from "./opcodes/index"
 import Memory from './memory'
 import type { txType } from "./transaction"
-export default function evm(code: Uint8Array, tx: txType) {
+import type { blockType } from "./block"
+export default function evm(code: Uint8Array, tx: txType, block: blockType) {
   let pc: number = 0;
   let stack: bigint[] = [];
   let memory: Memory = new Memory();
@@ -132,6 +133,7 @@ export default function evm(code: Uint8Array, tx: txType) {
       case 0x33: stack = opcodes.CALLER(tx, stack); break;
       case 0x32: stack = opcodes.ORIGIN(tx, stack); break;
       case 0x3a: stack = opcodes.GASPRICE(tx, stack); break;
+      case 0x48: stack = opcodes.BASEFEE(block, stack); break;
     }
 
 

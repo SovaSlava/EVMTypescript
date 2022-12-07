@@ -7,7 +7,7 @@ for (const t of tests as any) {
     // Note: as the test cases get more complex, you'll need to modify this
     // to pass down more arguments to the evm function (e.g. block, state, etc.)
     // and return more data (e.g. state, logs, etc.)
-    const result = evm(hexStringToUint8Array(t.code.bin), t.tx);
+    const result = evm(hexStringToUint8Array(t.code.bin), t.tx, t.block);
 
 
     expect(result.success).toEqual(t.expect.success);
