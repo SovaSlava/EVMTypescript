@@ -4,5 +4,6 @@ export type blockType = {
     timestamp: bigint,
     number: bigint,
     difficulty: bigint,
-    gaslimit: bigint
+    gaslimit: bigint,
+    chainid: bigint
 }

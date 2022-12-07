@@ -139,6 +139,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType) {
       case 0x43: stack = opcodes.NUMBER(block, stack); break;
       case 0x44: stack = opcodes.DIFFICULTY(block, stack); break;
       case 0x45: stack = opcodes.GASLIMIT(block, stack); break;
+      case 0x46: stack = opcodes.CHAINID(block, stack); break;
     }
 
 
