@@ -15,7 +15,7 @@ import * as opcodes from "./opcodes/index"
 import Memory from './memory'
 import type { txType } from "./transaction"
 import type { blockType } from "./block"
-export default function evm(code: Uint8Array, tx: txType, block: blockType) {
+export default function evm(code: Uint8Array, tx: txType, block: blockType, state) {
   let pc: number = 0;
   let stack: bigint[] = [];
   let memory: Memory = new Memory();
@@ -140,6 +140,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType) {
       case 0x44: stack = opcodes.DIFFICULTY(block, stack); break;
       case 0x45: stack = opcodes.GASLIMIT(block, stack); break;
       case 0x46: stack = opcodes.CHAINID(block, stack); break;
+      case 0x31: stack = opcodes.BALANCE(state, stack); break;
     }
 
 
