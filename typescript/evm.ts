@@ -141,6 +141,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x45: stack = opcodes.GASLIMIT(block, stack); break;
       case 0x46: stack = opcodes.CHAINID(block, stack); break;
       case 0x31: stack = opcodes.BALANCE(state, stack); break;
+      case 0x34: stack = opcodes.CALLVALUE(tx, stack); break;
     }
 
 
