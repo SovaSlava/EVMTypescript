@@ -3,5 +3,6 @@ export type txType = {
     from: bigint,
     origin: bigint,
     gasprice: bigint,
-    value: bigint
+    value: bigint,
+    data: Uint8Array
 }
