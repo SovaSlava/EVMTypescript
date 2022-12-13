@@ -145,6 +145,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x35: stack = opcodes.CALLDATALOAD(tx, stack); break;
       case 0x36: stack = opcodes.CALLDATASIZE(tx, stack); break;
       case 0x37: stack = opcodes.CALLDATACOPY(memory, tx, stack); break;
+      case 0x38: stack = opcodes.CODESIZE(code, stack); break;
     }
 
 
