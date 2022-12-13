@@ -9,10 +9,15 @@ export function CALLDATACOPY(memory: Memory, tx: txType, stack: bigint[]): bigin
     let calldataSizeCopy = stack[2];
 
     let value = 0n;
-    // read calldata
-    // for (let i = calldataOffsetCopy * 2n; i < 64n + calldataSizeCopy * 2n; i += 2n) {
-    for (let i = calldataOffsetCopy * 2n; i < 64n + calldataOffsetCopy * 2n; i += 2n) {
-        if (tx.data[Number(i + 1n)] != undefined) {
+    let copySize: bigint;
+    if (calldataSizeCopy < 64n) {
+        copySize = 64n
+    }
+    else {
+        copySize = calldataOffsetCopy;
+    }
+    for (let i = calldataOffsetCopy * 2n; i < copySize + calldataOffsetCopy * 2n; i += 2n) {
+        if (tx.data[Number(i + 1n)] != undefined || i <= calldataOffsetCopy + calldataSizeCopy) {
             value = (value << 8n) | BigInt("0x" + tx.data[Number(i)] + tx.data[Number(i + 1n)]);
         }
         else {
@@ -20,16 +25,9 @@ export function CALLDATACOPY(memory: Memory, tx: txType, stack: bigint[]): bigin
         }
     }
 
-    //  let value1: string = value.toString(16);
-    //  while (value1.length != 64) {
-    //      value1 = value1 + '0';
-    //  }
-    //console.log('load value - ' + value.toString(16))
-    // memory.store(memoryOffsetRead, value, calldataSizeCopy);
     memory.store(memoryOffsetRead, value, 32n);
     stack.shift();
     stack.shift();
     stack.shift();
-    // stack.unshift(BigInt(value));
     return stack;
 }
