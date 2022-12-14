@@ -15,6 +15,7 @@ import * as opcodes from "./opcodes/index"
 import Memory from './memory'
 import type { txType } from "./transaction"
 import type { blockType } from "./block"
+import type { stateType } from "./state"
 export default function evm(code: Uint8Array, tx: txType, block: blockType, state) {
   let pc: number = 0;
   let stack: bigint[] = [];
@@ -147,6 +148,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x37: stack = opcodes.CALLDATACOPY(memory, tx, stack); break;
       case 0x38: stack = opcodes.CODESIZE(code, stack); break;
       case 0x39: stack = opcodes.CODECOPY(memory, code, stack); break;
+      case 0x3b: stack = opcodes.EXTCODESIZE(stack, state); break;
     }
 
 

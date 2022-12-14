@@ -1,3 +1,6 @@
 export type stateType = {
-    bigint: bigint
+    balance: bigint,
+    nonce: bigint,
+    code: Uint8Array,
+    storage: []
 }
