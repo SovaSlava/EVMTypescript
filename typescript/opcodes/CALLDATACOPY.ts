@@ -1,6 +1,4 @@
 import type { txType } from "../transaction"
-import { CALLDATALOAD } from "./CALLDATALOAD";
-import { MSTORE } from "./MSTORE";
 import type Memory from "../memory";
 export function CALLDATACOPY(memory: Memory, tx: txType, stack: bigint[]): bigint[] {
 
@@ -14,7 +12,7 @@ export function CALLDATACOPY(memory: Memory, tx: txType, stack: bigint[]): bigin
         copySize = 64n
     }
     else {
-        copySize = calldataOffsetCopy;
+        copySize = calldataSizeCopy;
     }
     for (let i = calldataOffsetCopy * 2n; i < copySize + calldataOffsetCopy * 2n; i += 2n) {
         if (tx.data[Number(i + 1n)] != undefined || i <= calldataOffsetCopy + calldataSizeCopy) {
