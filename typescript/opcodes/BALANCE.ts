@@ -1,6 +1,5 @@
-import type { stateType } from "../state"
 export function BALANCE(state, stack: bigint[]): bigint[] {
-    let balance;
+    let balance: bigint;
     if (state === undefined || !state.hasOwnProperty('0x' + stack[0].toString(16))) {
         balance = 0n;
     }
