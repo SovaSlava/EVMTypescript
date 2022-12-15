@@ -150,6 +150,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x39: stack = opcodes.CODECOPY(memory, code, stack); break;
       case 0x3b: stack = opcodes.EXTCODESIZE(stack, state); break;
       case 0x3c: memory = opcodes.EXTCODECOPY(stack, state, memory); break;
+      case 0x3f: memory = opcodes.EXTCODEHASH(stack, state); break;
     }
 
 
