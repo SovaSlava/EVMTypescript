@@ -15,11 +15,15 @@ import * as opcodes from "./opcodes/index"
 import Memory from './memory'
 import type { txType } from "./transaction"
 import type { blockType } from "./block"
-export default function evm(code: Uint8Array, tx: txType, block: blockType, state) {
+import EVMStorage from "./storage"
+import type { stateType } from "./state"
+export default function evm(code: Uint8Array, tx: txType, block: blockType, state: stateType) {
   let pc: number = 0;
   let stack: bigint[] = [];
   let memory: Memory = new Memory();
   let success: boolean = true;
+  let evmStorage: EVMStorage = new EVMStorage();
+  const selfAddress: string = "0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d";
   while (pc < code.length) {
     const opcode = code[pc];
     let argSize: number = 0;
@@ -151,6 +155,8 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x3c: memory = opcodes.EXTCODECOPY(stack, state, memory); break;
       case 0x3f: stack = opcodes.EXTCODEHASH(stack, state); break;
       case 0x47: stack = opcodes.SELFBALANCE(state, stack, tx); break;
+      case 0x55: opcodes.SSTORE(evmStorage, stack, selfAddress); break;
+      case 0x54: opcodes.SLOAD(evmStorage, stack, selfAddress); break;
     }
 
 
