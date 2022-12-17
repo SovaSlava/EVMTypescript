@@ -166,6 +166,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0xa3:
       case 0xa4: [logs, stack] = opcodes.LOG(stack, memory, logs, tx, opcode); break;
       case 0xf3: returnData = opcodes.RETURN(stack, memory); break;
+      case 0xfd: [returnData, success] = opcodes.REVERT(stack, memory); break;
     }
 
 
