@@ -27,7 +27,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
   let logs: txLog[] = [];
   const selfAddress: string = "0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d";
   while (pc < code.length) {
-    const opcode = code[pc];
+    const opcode: number = code[pc];
     let argSize: number = 0;
 
     switch (opcode) {
@@ -163,7 +163,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0xa1:
       case 0xa2:
       case 0xa3:
-      case 0xa4: [logs, stack] = opcodes.LOG(stack, memory, logs, tx); break;
+      case 0xa4: [logs, stack] = opcodes.LOG(stack, memory, logs, tx, opcode); break;
     }
 
 
