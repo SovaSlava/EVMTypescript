@@ -7,8 +7,7 @@ export default class EVMStorage {
     }
 
     store(address: string, slot: number, value: bigint) {
-        this.storage[address] = {};
-        this.storage[address][slot] = value;
+        this.storage[address] = { [slot]: value };
     }
 
     sload(address: string, slot: number): bigint {

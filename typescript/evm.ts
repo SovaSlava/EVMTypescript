@@ -25,6 +25,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
   let success: boolean = true;
   let evmStorage: EVMStorage = new EVMStorage();
   let logs: txLog[] = [];
+  let returnData: string = "";
   const selfAddress: string = "0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d";
   while (pc < code.length) {
     const opcode: number = code[pc];
@@ -164,6 +165,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0xa2:
       case 0xa3:
       case 0xa4: [logs, stack] = opcodes.LOG(stack, memory, logs, tx, opcode); break;
+      case 0xf3: returnData = opcodes.RETURN(stack, memory); break;
     }
 
 
@@ -176,9 +178,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
     else {
       pc += argSize + 1;
     }
-    // console.log('now stack - ' + stack.toString())
   }
 
-
-  return { success: success, stack, logs };
+  return { success: success, stack, logs, return: returnData };
 }

@@ -17,6 +17,9 @@ for (const t of tests as any) {
     if ("stack" in t.expect) {
       expect(result.stack).toEqual(t.expect.stack.map((item) => BigInt(item)));
     }
+    if ("return" in t.expect) {
+      expect(result.return).toEqual(t.expect.return);
+    }
   });
 }
 
