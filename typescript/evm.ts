@@ -17,12 +17,14 @@ import type { txType } from "./transaction"
 import type { blockType } from "./block"
 import EVMStorage from "./storage"
 import type { stateType } from "./state"
+import type { txLog } from "./logs"
 export default function evm(code: Uint8Array, tx: txType, block: blockType, state: stateType) {
   let pc: number = 0;
   let stack: bigint[] = [];
   let memory: Memory = new Memory();
   let success: boolean = true;
   let evmStorage: EVMStorage = new EVMStorage();
+  let logs: txLog[] = [];
   const selfAddress: string = "0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d";
   while (pc < code.length) {
     const opcode = code[pc];
@@ -157,6 +159,11 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x47: stack = opcodes.SELFBALANCE(state, stack, tx); break;
       case 0x55: opcodes.SSTORE(evmStorage, stack, selfAddress); break;
       case 0x54: opcodes.SLOAD(evmStorage, stack, selfAddress); break;
+      case 0xa0:
+      case 0xa1:
+      case 0xa2:
+      case 0xa3:
+      case 0xa4: [logs, stack] = opcodes.LOG(stack, memory, logs, tx); break;
     }
 
 
@@ -171,5 +178,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
     }
     // console.log('now stack - ' + stack.toString())
   }
-  return { success: success, stack };
+
+
+  return { success: success, stack, logs };
 }

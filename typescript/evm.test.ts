@@ -11,7 +11,12 @@ for (const t of tests as any) {
 
 
     expect(result.success).toEqual(t.expect.success);
-    expect(result.stack).toEqual(t.expect.stack.map((item) => BigInt(item)));
+    if ("logs" in t.expect) {
+      expect(result.logs).toEqual(t.expect.logs);
+    }
+    if ("stack" in t.expect) {
+      expect(result.stack).toEqual(t.expect.stack.map((item) => BigInt(item)));
+    }
   });
 }
 
