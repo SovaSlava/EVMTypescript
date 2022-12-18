@@ -19,6 +19,9 @@ import EVMStorage from "./storage"
 import type { stateType } from "./state"
 import type { txLog } from "./logs"
 export default function evm(code: Uint8Array, tx: txType, block: blockType, state: stateType) {
+  if (tx === undefined) {
+    tx = { to: BigInt("0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d"), from: 0n, origin: 0n, gasprice: 0n, value: 0n, data: new Uint8Array() }
+  }
   let pc: number = 0;
   let stack: bigint[] = [];
   let memory: Memory = new Memory();
@@ -167,7 +170,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0xa4: [logs, stack] = opcodes.LOG(stack, memory, logs, tx, opcode); break;
       case 0xf3: returnData = opcodes.RETURN(stack, memory); break;
       case 0xfd: [returnData, success] = opcodes.REVERT(stack, memory); break;
-      case 0xf1: [stack, memory] = opcodes.CALL(stack, state, tx, block, memory); break;
+      case 0xf1: [stack, memory] = opcodes.CALL(stack, state, tx, block, memory, selfAddress); break;
       default: console.log("UNKNOWN CODE - " + opcode)
     }
 
