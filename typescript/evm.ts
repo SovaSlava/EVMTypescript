@@ -167,6 +167,8 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0xa4: [logs, stack] = opcodes.LOG(stack, memory, logs, tx, opcode); break;
       case 0xf3: returnData = opcodes.RETURN(stack, memory); break;
       case 0xfd: [returnData, success] = opcodes.REVERT(stack, memory); break;
+      case 0xf1: [stack, memory] = opcodes.CALL(stack, state, tx, block, memory); break;
+      default: console.log("UNKNOWN CODE - " + opcode)
     }
 
 
@@ -180,6 +182,6 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       pc += argSize + 1;
     }
   }
-
+  console.log('new return: success - ' + success + ',returndata - ' + returnData + ', memory ' + memory.load(0n, 32n) + ',stack - ' + stack)
   return { success: success, stack, logs, return: returnData };
 }
