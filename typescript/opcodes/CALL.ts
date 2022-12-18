@@ -3,7 +3,7 @@ import evm from "../evm"
 import { hexStringToUint8Array } from "../evm.test"
 import Memory from "../memory";
 import { txType } from "../transaction";
-export function CALL(stack: bigint[], state, tx: txType, block: blockType, memory: Memory, selfAddress: string): [bigint[], Memory] {
+export function CALL(stack: bigint[], state, tx: txType, block: blockType, memory: Memory, selfAddress: string): [bigint[], Memory, bigint] {
     const address = '0x' + stack[1].toString(16);
     let code: Uint8Array;
     if (state !== undefined && address.toString() in state) {
@@ -20,7 +20,7 @@ export function CALL(stack: bigint[], state, tx: txType, block: blockType, memor
         stack.shift();
         stack.shift();
         stack.unshift(BigInt(callResult.success))
-        return [stack, memory];
+        return [stack, memory, BigInt(callResult.return.length)];
     }
     else {
         return [stack, memory];

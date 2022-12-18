@@ -29,6 +29,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
   let evmStorage: EVMStorage = new EVMStorage();
   let logs: txLog[] = [];
   let returnData: string = "";
+  let returnDataSize: bigint = 0n;
   const selfAddress: string = "0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d";
   while (pc < code.length) {
     const opcode: number = code[pc];
@@ -170,8 +171,9 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0xa4: [logs, stack] = opcodes.LOG(stack, memory, logs, tx, opcode); break;
       case 0xf3: returnData = opcodes.RETURN(stack, memory); break;
       case 0xfd: [returnData, success] = opcodes.REVERT(stack, memory); break;
-      case 0xf1: [stack, memory] = opcodes.CALL(stack, state, tx, block, memory, selfAddress); break;
-      default: console.log("UNKNOWN CODE - " + opcode)
+      case 0xf1: [stack, memory, returnDataSize] = opcodes.CALL(stack, state, tx, block, memory, selfAddress); break;
+      case 0x3d: stack = opcodes.RETURNDATASIZE(stack, returnDataSize); break;
+      //  default: success = opcodes.INVALID();
     }
 
 
