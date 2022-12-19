@@ -1,3 +1,4 @@
+import { hexStringToUint8Array } from "./evm.test"
 export default class Memory {
 
     private data: Uint8Array;
@@ -26,7 +27,7 @@ export default class Memory {
         }
     }
 
-    load(offset: bigint, size: bigint = 32n) {
+    load(offset: bigint, size: bigint = 32n): bigint {
         let memoryOffset = offset + size;
         let memoryAffected = memoryOffset % size == 0n ? size : memoryOffset - (memoryOffset % size) + size
         if (this.size < memoryAffected) {

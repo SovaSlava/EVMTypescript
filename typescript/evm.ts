@@ -28,7 +28,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
   let success: boolean = true;
   let evmStorage: EVMStorage = new EVMStorage();
   let logs: txLog[] = [];
-  let returnData: string = "";
+  let returnData: bigint = 0n;
   let returnDataSize: bigint = 0n;
   const selfAddress: string = "0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d";
   while (pc < code.length) {
@@ -159,7 +159,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x38: stack = opcodes.CODESIZE(code, stack); break;
       case 0x39: stack = opcodes.CODECOPY(memory, code, stack); break;
       case 0x3b: stack = opcodes.EXTCODESIZE(stack, state); break;
-      case 0x3c: memory = opcodes.EXTCODECOPY(stack, state, memory); break;
+      case 0x3c: opcodes.EXTCODECOPY(stack, state, memory); break;
       case 0x3f: stack = opcodes.EXTCODEHASH(stack, state); break;
       case 0x47: stack = opcodes.SELFBALANCE(state, stack, tx); break;
       case 0x55: opcodes.SSTORE(evmStorage, stack, selfAddress); break;
@@ -171,8 +171,9 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0xa4: [logs, stack] = opcodes.LOG(stack, memory, logs, tx, opcode); break;
       case 0xf3: returnData = opcodes.RETURN(stack, memory); break;
       case 0xfd: [returnData, success] = opcodes.REVERT(stack, memory); break;
-      case 0xf1: [stack, memory, returnDataSize] = opcodes.CALL(stack, state, tx, block, memory, selfAddress); break;
+      case 0xf1: [stack, returnDataSize, returnData] = opcodes.CALL(stack, state, tx, block, memory, selfAddress); break;
       case 0x3d: stack = opcodes.RETURNDATASIZE(stack, returnDataSize); break;
+      case 0x3e: stack = opcodes.RETURNDATACOPY(stack, memory, returnData); break;
       //  default: success = opcodes.INVALID();
     }
 
@@ -188,5 +189,5 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
     }
   }
   console.log('new return: success - ' + success + ',returndata - ' + returnData + ', memory ' + memory.load(0n, 32n) + ',stack - ' + stack)
-  return { success: success, stack, logs, return: returnData };
+  return { success: success, stack, logs, return: returnData.toString(16) };
 }
