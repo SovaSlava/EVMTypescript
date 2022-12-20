@@ -18,7 +18,7 @@ import type { blockType } from "./block"
 import EVMStorage from "./storage"
 import type { stateType } from "./state"
 import type { txLog } from "./logs"
-export default function evm(code: Uint8Array, tx: txType, block: blockType, state: stateType) {
+export default function evm(code: Uint8Array, tx: txType, block: blockType, state: stateType, storage?: EVMStorage) {
   if (tx === undefined) {
     tx = { to: BigInt("0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d"), from: 0n, origin: 0n, gasprice: 0n, value: 0n, data: new Uint8Array() }
   }
@@ -26,7 +26,13 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
   let stack: bigint[] = [];
   let memory: Memory = new Memory();
   let success: boolean = true;
-  let evmStorage: EVMStorage = new EVMStorage();
+  let evmStorage: EVMStorage;
+  if (storage) {
+    evmStorage = storage;
+  }
+  else {
+    evmStorage = new EVMStorage();
+  }
   let logs: txLog[] = [];
   let returnData: bigint = 0n;
   let returnDataSize: bigint = 0n;
@@ -162,8 +168,8 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x3c: opcodes.EXTCODECOPY(stack, state, memory); break;
       case 0x3f: stack = opcodes.EXTCODEHASH(stack, state); break;
       case 0x47: stack = opcodes.SELFBALANCE(state, stack, tx); break;
-      case 0x55: opcodes.SSTORE(evmStorage, stack, selfAddress); break;
-      case 0x54: opcodes.SLOAD(evmStorage, stack, selfAddress); break;
+      case 0x55: opcodes.SSTORE(evmStorage, stack, tx); break;
+      case 0x54: opcodes.SLOAD(evmStorage, stack, tx); break;
       case 0xa0:
       case 0xa1:
       case 0xa2:
@@ -171,9 +177,10 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0xa4: [logs, stack] = opcodes.LOG(stack, memory, logs, tx, opcode); break;
       case 0xf3: returnData = opcodes.RETURN(stack, memory); break;
       case 0xfd: [returnData, success] = opcodes.REVERT(stack, memory); break;
-      case 0xf1: [stack, returnDataSize, returnData] = opcodes.CALL(stack, state, tx, block, memory, selfAddress); break;
+      case 0xf1: [stack, returnDataSize, returnData] = opcodes.CALL(stack, state, tx, block, memory); break;
       case 0x3d: stack = opcodes.RETURNDATASIZE(stack, returnDataSize); break;
       case 0x3e: stack = opcodes.RETURNDATACOPY(stack, memory, returnData); break;
+      case 0xf4: [stack, returnDataSize, returnData] = opcodes.DELEGATECALL(stack, state, tx, block, memory, evmStorage); console.log('FF stack - ' + stack); break;
       //  default: success = opcodes.INVALID();
     }
 

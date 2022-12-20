@@ -6,13 +6,15 @@ export default class EVMStorage {
         this.storage = {};
     }
 
-    store(address: string, slot: number, value: bigint) {
-        this.storage[address] = { [slot]: value };
+    store(address: bigint, slot: number, value: bigint) {
+        let storageAddress: string = address.toString(16);
+        this.storage[storageAddress] = { [slot]: value };
     }
 
-    sload(address: string, slot: number): bigint {
-        if (address in this.storage && slot in this.storage[address]) {
-            return this.storage[address][slot];
+    sload(address: bigint, slot: number): bigint {
+        let storageAddress: string = address.toString(16);
+        if (storageAddress in this.storage && slot in this.storage[storageAddress]) {
+            return this.storage[storageAddress][slot];
         }
         else {
             return 0n;
