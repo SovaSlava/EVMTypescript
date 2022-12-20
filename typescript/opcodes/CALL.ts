@@ -10,7 +10,7 @@ export function CALL(stack: bigint[], state, tx: txType, block: blockType, memor
         code = hexStringToUint8Array(state[address.toString()].code.bin);
 
         tx["from"] = tx.to;
-        const callResult = evm(code, tx, block, state)
+        const callResult = evm(code, tx, block, state, true)
         let returndata: string = callResult.return;
 
         memory.store(stack[5], BigInt('0x' + callResult.return), stack[6])

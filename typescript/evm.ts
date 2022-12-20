@@ -18,7 +18,7 @@ import type { blockType } from "./block"
 import EVMStorage from "./storage"
 import type { stateType } from "./state"
 import type { txLog } from "./logs"
-export default function evm(code: Uint8Array, tx: txType, block: blockType, state: stateType, storage?: EVMStorage) {
+export default function evm(code: Uint8Array, tx: txType, block: blockType, state: stateType, canWrite: boolean = true, storage?: EVMStorage) {
   if (tx === undefined) {
     tx = { to: BigInt("0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d"), from: 0n, origin: 0n, gasprice: 0n, value: 0n, data: new Uint8Array() }
   }
@@ -168,7 +168,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x3c: opcodes.EXTCODECOPY(stack, state, memory); break;
       case 0x3f: stack = opcodes.EXTCODEHASH(stack, state); break;
       case 0x47: stack = opcodes.SELFBALANCE(state, stack, tx); break;
-      case 0x55: opcodes.SSTORE(evmStorage, stack, tx); break;
+      case 0x55: success = opcodes.SSTORE(evmStorage, stack, tx, canWrite); break;
       case 0x54: opcodes.SLOAD(evmStorage, stack, tx); break;
       case 0xa0:
       case 0xa1:

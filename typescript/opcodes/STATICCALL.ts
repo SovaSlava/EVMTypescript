@@ -10,7 +10,7 @@ export function STATICCALL(stack: bigint[], state, tx: txType, block: blockType,
         code = hexStringToUint8Array(state[address.toString()].code.bin);
 
         tx["from"] = tx.to;
-        const callResult = evm(code, tx, block, state)
+        const callResult = evm(code, tx, block, state, false)
         let returndata: string = callResult.return;
         memory.store(stack[4], BigInt(`0x${callResult.return}`), stack[5])
         stack.shift();

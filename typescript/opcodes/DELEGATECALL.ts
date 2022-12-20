@@ -13,7 +13,7 @@ export function DELEGATECALL(stack: bigint[], state, tx: txType, block: blockTyp
 
         tx["from"] = tx.to;
         tx["to"] = tx.to
-        const callResult = evm(code, tx, block, state, evmStorage)
+        const callResult = evm(code, tx, block, state, true, evmStorage)
         let returndata: string = callResult.return;
         memory.store(stack[5], BigInt('0x' + callResult.return), stack[6])
         stack.shift();
