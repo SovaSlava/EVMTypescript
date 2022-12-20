@@ -180,7 +180,8 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0xf1: [stack, returnDataSize, returnData] = opcodes.CALL(stack, state, tx, block, memory); break;
       case 0x3d: stack = opcodes.RETURNDATASIZE(stack, returnDataSize); break;
       case 0x3e: stack = opcodes.RETURNDATACOPY(stack, memory, returnData); break;
-      case 0xf4: [stack, returnDataSize, returnData] = opcodes.DELEGATECALL(stack, state, tx, block, memory, evmStorage); console.log('FF stack - ' + stack); break;
+      case 0xf4: [stack, returnDataSize, returnData] = opcodes.DELEGATECALL(stack, state, tx, block, memory, evmStorage); break;
+      case 0xfa: [stack, returnDataSize, returnData] = opcodes.STATICCALL(stack, state, tx, block, memory); break;
       //  default: success = opcodes.INVALID();
     }
 
