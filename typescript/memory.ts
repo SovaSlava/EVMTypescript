@@ -1,4 +1,3 @@
-import { hexStringToUint8Array } from "./evm.test"
 export default class Memory {
 
     private data: Uint8Array;

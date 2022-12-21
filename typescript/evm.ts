@@ -36,7 +36,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
   let logs: txLog[] = [];
   let returnData: bigint = 0n;
   let returnDataSize: bigint = 0n;
-  const selfAddress: string = "0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d";
+  // const selfAddress: string = "0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d";
   while (pc < code.length) {
     const opcode: number = code[pc];
     let argSize: number = 0;
@@ -182,6 +182,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x3e: stack = opcodes.RETURNDATACOPY(stack, memory, returnData); break;
       case 0xf4: [stack, returnDataSize, returnData] = opcodes.DELEGATECALL(stack, state, tx, block, memory, evmStorage); break;
       case 0xfa: [stack, returnDataSize, returnData] = opcodes.STATICCALL(stack, state, tx, block, memory); break;
+      case 0xF0: [stack, state] = opcodes.CREATE(stack, memory, tx, state)
       //  default: success = opcodes.INVALID();
     }
 
