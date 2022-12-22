@@ -1,5 +1,5 @@
 import type Memory from "../memory";
-export function EXTCODECOPY(stack: bigint[], state, memory: Memory) {
+export function EXTCODECOPY(stack: bigint[], state, memory: Memory): bigint[] {
     const address = '0x' + stack[0].toString(16);
     let memoryOffset = stack[1];
     let codeOffsetCopy = stack[2];
@@ -10,7 +10,6 @@ export function EXTCODECOPY(stack: bigint[], state, memory: Memory) {
     stack.shift();
 
     let code: Uint8Array;
-
     if (state !== undefined && address in state) {
         code = state[address].code.bin;
     }
@@ -35,6 +34,10 @@ export function EXTCODECOPY(stack: bigint[], state, memory: Memory) {
     }
 
     memory.store(memoryOffset, value, copySize);
-
+    stack.shift();
+    stack.shift();
+    stack.shift();
+    stack.shift();
+    return stack;
 
 }
