@@ -8,8 +8,8 @@ export function CALL(stack: bigint[], state, tx: txType, block: blockType, memor
     let code: Uint8Array;
     if (state !== undefined && address.toString() in state) {
         code = hexStringToUint8Array(state[address.toString()].code.bin);
-
         tx["from"] = tx.to;
+        tx["to"] = BigInt(address);
         const callResult = evm(code, tx, block, state, true)
         let returndata: string = callResult.return;
 

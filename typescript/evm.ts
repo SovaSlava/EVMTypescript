@@ -20,12 +20,13 @@ import type { stateType } from "./state"
 import type { txLog } from "./logs"
 export default function evm(code: Uint8Array, tx: txType, block: blockType, state: stateType = {}, canWrite: boolean = true, evmStorage: EVMStorage = new EVMStorage()) {
   if (tx == undefined) {
-    tx = { to: BigInt("0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d"), from: 0n, origin: 0n, gasprice: 0n, value: 0n, data: new Uint8Array() }
-    state[BigInt("0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d").toString(16)] = { balance: 0n, nonce: 0n, code: { "bin": code.toString() } }
+    const callerAddress: bigint = BigInt("0x1000000000000000000000000000000000000001");
+    state[callerAddress.toString(16)] = { balance: 0n, nonce: 0n, code: { "bin": code.toString() } }
+    tx = { to: BigInt("0xa1c300000000000000000000000000000000a1c3"), from: callerAddress, origin: 0n, gasprice: 0n, value: 0n, data: new Uint8Array() }
+    state["0xa1c300000000000000000000000000000000a1c3"] = { balance: 0n, nonce: 0n, code: { "bin": code.toString() } }
   }
   else {
     if (tx.to != undefined && !(tx.to.toString(16) in state)) {
-      console.log('evm make state-' + tx.to.toString(16))
       state[tx.to.toString(16)] = { balance: 0n, nonce: 0n, code: { "bin": code.toString() } }
     }
   }
@@ -164,7 +165,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x37: stack = opcodes.CALLDATACOPY(memory, tx, stack); break;
       case 0x38: stack = opcodes.CODESIZE(code, stack); break;
       case 0x39: stack = opcodes.CODECOPY(memory, code, stack); break;
-      case 0x40: opcode.BLOCKHASH(); break;
+      case 0x40: opcodes.BLOCKHASH(); break;
       case 0x3b: stack = opcodes.EXTCODESIZE(stack, state); break;
       case 0x3c: stack = opcodes.EXTCODECOPY(stack, state, memory); break;
       case 0x3f: stack = opcodes.EXTCODEHASH(stack, state); break;
@@ -183,8 +184,9 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x3e: stack = opcodes.RETURNDATACOPY(stack, memory, returnData); break;
       case 0xf4: [stack, returnDataSize, returnData] = opcodes.DELEGATECALL(stack, state, tx, block, memory, evmStorage); break;
       case 0xfa: [stack, returnDataSize, returnData] = opcodes.STATICCALL(stack, state, tx, block, memory); break;
-      case 0xF0: [stack, state] = opcodes.CREATE(stack, memory, tx, block, state)
-      default: console.log('UNKNOWN CODE - ' + opcode); success = opcodes.INVALID();
+      case 0xf0: [stack, state] = opcodes.CREATE(stack, memory, tx, block, state); break;
+      case 0xff: [stack, state] = opcodes.SELFDESTRUCT(stack, state, tx); break;
+      default: success = opcodes.INVALID(); break;
     }
 
 
@@ -198,6 +200,5 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       pc += argSize + 1;
     }
   }
-  console.log('new return: success - ' + success + ',returndata - ' + returnData + ', memory ' + memory.load(0n, 32n) + ',stack - ' + stack)
   return { success: success, stack, logs, return: returnData.toString(16) };
 }

@@ -8,9 +8,6 @@ export function RETURNDATACOPY(stack: bigint[], memory: Memory, returnData: bigi
     stack.shift();
     stack.shift();
 
-
-
-
     let value = 0n;
     if (dataSizeCopy < 32n) {
         dataSizeCopy = 32n
@@ -20,7 +17,6 @@ export function RETURNDATACOPY(stack: bigint[], memory: Memory, returnData: bigi
 
     for (let i = dataOffsetCopy; i < dataSizeCopy + dataOffsetCopy; i++) {
         if (i < data.length && i < dataOffsetCopy + dataSizeCopy) {
-            console.log('f1 - ' + data[Number(i)] + data[Number(i + 1n)])
             value = (value << 8n) | BigInt(data[Number(i)]);
         }
         else {

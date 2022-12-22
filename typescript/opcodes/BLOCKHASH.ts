@@ -1,3 +1,4 @@
 export function BLOCKHASH() {
-    // not used in this evm
+    const message: string = "not used in this evm";
+
 }
