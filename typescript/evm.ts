@@ -18,7 +18,7 @@ import type { blockType } from "./block"
 import EVMStorage from "./storage"
 import type { stateType } from "./state"
 import type { txLog } from "./logs"
-export default function evm(code: Uint8Array, tx: txType, block: blockType, state: stateType = {}, canWrite: boolean = true, storage?: EVMStorage) {
+export default function evm(code: Uint8Array, tx: txType, block: blockType, state: stateType = {}, canWrite: boolean = true, evmStorage: EVMStorage = new EVMStorage()) {
   if (tx == undefined) {
     tx = { to: BigInt("0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d"), from: 0n, origin: 0n, gasprice: 0n, value: 0n, data: new Uint8Array() }
     state[BigInt("0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d").toString(16)] = { balance: 0n, nonce: 0n, code: { "bin": code.toString() } }
@@ -34,13 +34,6 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
   let stack: bigint[] = [];
   let memory: Memory = new Memory();
   let success: boolean = true;
-  let evmStorage: EVMStorage;
-  if (storage) {
-    evmStorage = storage;
-  }
-  else {
-    evmStorage = new EVMStorage();
-  }
   let logs: txLog[] = [];
   let returnData: bigint = 0n;
   let returnDataSize: bigint = 0n;
@@ -171,6 +164,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0x37: stack = opcodes.CALLDATACOPY(memory, tx, stack); break;
       case 0x38: stack = opcodes.CODESIZE(code, stack); break;
       case 0x39: stack = opcodes.CODECOPY(memory, code, stack); break;
+      case 0x40: opcode.BLOCKHASH(); break;
       case 0x3b: stack = opcodes.EXTCODESIZE(stack, state); break;
       case 0x3c: stack = opcodes.EXTCODECOPY(stack, state, memory); break;
       case 0x3f: stack = opcodes.EXTCODEHASH(stack, state); break;
@@ -190,7 +184,7 @@ export default function evm(code: Uint8Array, tx: txType, block: blockType, stat
       case 0xf4: [stack, returnDataSize, returnData] = opcodes.DELEGATECALL(stack, state, tx, block, memory, evmStorage); break;
       case 0xfa: [stack, returnDataSize, returnData] = opcodes.STATICCALL(stack, state, tx, block, memory); break;
       case 0xF0: [stack, state] = opcodes.CREATE(stack, memory, tx, block, state)
-      //  default: success = opcodes.INVALID();
+      default: console.log('UNKNOWN CODE - ' + opcode); success = opcodes.INVALID();
     }
 
 
